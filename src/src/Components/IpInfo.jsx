@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./style.css";
 import Loader from "./Loader";
 import Info from "./Info";
+import getUserInfo from "../Services/getInfo";
 
 class IPinfo extends Component {
   constructor(props) {
@@ -12,22 +13,8 @@ class IPinfo extends Component {
     };
   }
 
-  async getUserIp() {
-    const response = await fetch("https://api.ipify.org?format=json");
-
-    return (await response.json()).ip;
-  }
-
-  async getUserInfo() {
-    const userIp = await this.getUserIp();
-
-    const response = await fetch(`http://ipwho.is/${userIp}`);
-
-    return await response.json();
-  }
-
   componentDidMount() {
-    this.getUserInfo().then((data) => {
+    getUserInfo().then((data) => {
       this.setState({
         info: data,
         isLoading: false,
